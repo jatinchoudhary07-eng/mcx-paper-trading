@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MCX Paper Trading</title>
+<style>
+body{margin:0;background:#0b1020;color:#f5f7ff;font-family:Arial,sans-serif;padding:20px}
+h1{color:#65e6b4} .card{background:#171f35;padding:18px;border-radius:14px;margin:14px 0}
+.price{font-size:24px;font-weight:bold}button,select,input{padding:12px;border:0;border-radius:8px;margin:5px}
+button{background:#65e6b4;font-weight:bold}input,select{max-width:90%;background:#26314b;color:white}
+small{color:#b6c2d9}
+</style>
+</head>
+<body>
+<h1>MCX Paper Trading</h1>
+<p>Virtual trading only — no real orders.</p>
+<div class="card">
+<h3>Virtual Balance</h3>
+<div class="price" id="balance">₹10,00,000</div>
+<small>Starting demo balance</small>
+</div>
+<div class="card">
+<h3>Market Watch</h3>
+<p>Gold: <span id="gold">Live data not connected</span></p>
+<p>Silver: <span id="silver">Live data not connected</span></p>
+<p>Crude Oil: <span id="crude">Live data not connected</span></p>
+<small>Real MCX prices will appear after API integration.</small>
+</div>
+<div class="card">
+<h3>Practice Trade</h3>
+<select id="symbol">
+<option>Gold</option><option>Silver</option><option>Crude Oil</option>
+</select>
+<input id="qty" type="number" min="1" value="1" placeholder="Quantity">
+<br>
+<button onclick="trade('BUY')">Paper Buy</button>
+<button onclick="trade('SELL')">Paper Sell</button>
+<p id="msg">No trades yet.</p>
+</div>
+<div class="card">
+<h3>Paper Trade Log</h3>
+<div id="log">No trades recorded.</div>
+</div>
+<script>
+let balance=1000000;
+function trade(side){
+ const symbol=document.getElementById('symbol').value;
+ const qty=Number(document.getElementById('qty').value);
+ if(!Number.isInteger(qty)||qty<1){
+  document.getElementById('msg').textContent='Enter a valid quantity.';
+  return;
+ }
+ const time=new Date().toLocaleTimeString();
+ document.getElementById('msg').textContent=
+ side+' '+qty+' '+symbol+' recorded as a demo trade at '+time+
+ '. No real order was placed.';
+ const log=document.getElementById('log');
+ if(log.textContent==='No trades recorded.')log.textContent='';
+ log.innerHTML='<p>'+time+' — '+side+' '+qty+' '+symbol+'</p>'+log.innerHTML;
+}
+</script>
+</body>
+</html>
